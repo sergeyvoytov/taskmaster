@@ -10,7 +10,7 @@ Application to add tasks
 
 Main page of the app
 
-![image description](screenshots/main.png)
+![image description](screenshots/mainpage2.png)
 
 All tasks details
 
