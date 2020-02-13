@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,39 +47,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button taskOneDetailButton = findViewById(R.id.task1);
-
-        taskOneDetailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-                i.putExtra("task_key", taskOneDetailButton.getText());
-                Log.i("Voytov", taskOneDetailButton.getText().toString());
-                startActivity(i);
-            }
-        });
-
-        final Button taskTwoDetailButton = findViewById(R.id.task2);
-
-
-        taskTwoDetailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-                i.putExtra("task_key", taskTwoDetailButton.getText());
-                startActivity(i);
-            }
-        });
-        final Button taskThreeDetailButton = findViewById(R.id.task3);
-
-        taskThreeDetailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-                i.putExtra("task_key", taskThreeDetailButton.getText());
-                startActivity(i);
-            }
-        });
+//        final Button taskOneDetailButton = findViewById(R.id.task1);
+//
+//        taskOneDetailButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
+//                i.putExtra("task_key", taskOneDetailButton.getText());
+//                Log.i("Voytov", taskOneDetailButton.getText().toString());
+//                startActivity(i);
+//            }
+//        });
+//
+//        final Button taskTwoDetailButton = findViewById(R.id.task2);
+//
+//
+//        taskTwoDetailButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
+//                i.putExtra("task_key", taskTwoDetailButton.getText());
+//                startActivity(i);
+//            }
+//        });
+//        final Button taskThreeDetailButton = findViewById(R.id.task3);
+//
+//        taskThreeDetailButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
+//                i.putExtra("task_key", taskThreeDetailButton.getText());
+//                startActivity(i);
+//            }
+//        });
 
         /// out putting user on the main page
 //        String helloUser = getIntent().getStringExtra("user_name");
@@ -87,6 +88,19 @@ public class MainActivity extends AppCompatActivity {
 //            TextView userTextView = findViewById(R.id.helloUser);
 //            userTextView.setText("Hi, " + helloUser);
 //        }
+//        final LinearLayout linearLayout = findViewById(R.id.fragment_click);
+//
+//        linearLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
+//                i.putExtra("task_key", linearLayout.getId());
+//                startActivity(i);
+//            }
+//        });
+
+
+
     }
 
     @Override
