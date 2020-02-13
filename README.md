@@ -34,3 +34,10 @@ All tasks details
 - implemented shared preferences that I could send the username from the settings page
 - implemented sending which task button was clicked on the main page and output on the detail task page.
 
+
+### 13 February
+
+- added recycled view
+- added fragments
+- fragments are clickable
+
