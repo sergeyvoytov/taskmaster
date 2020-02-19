@@ -13,6 +13,6 @@ public class AllTasks extends AppCompatActivity {
         setContentView(R.layout.activity_all_tasks);
 
 //https://www.youtube.com/watch?v=FcPUFp8Qrps
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 }
