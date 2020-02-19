@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,8 @@ import java.util.List;
  * interface.
  */
 public class TaskFragment extends Fragment {
-
+    MyDatabase myDb;
+    List<Task> listOfTasks = new ArrayList<>();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -71,10 +74,19 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            List<Task> listOfTasks = new ArrayList<>();
-            listOfTasks.add(new Task("Wash dishes", "wash it really good", "in progress"));
-            listOfTasks.add(new Task("Vacuum clean", "Clean your house", "in progress"));
-            listOfTasks.add(new Task("Walk the dog", "Walk it!", "in progress"));
+
+            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "tasks").allowMainThreadQueries().build();
+
+            this.listOfTasks = myDb.taskDao().getAll();
+            for (Task item : listOfTasks) {
+                Log.i("Voytov", "Stuff from DB " + item.title + item.body + item.state);
+            }
+
+
+//            List<Task> listOfTasks = new ArrayList<>();
+//            listOfTasks.add(new Task("Wash dishes", "wash it really good", "in progress"));
+//            listOfTasks.add(new Task("Vacuum clean", "Clean your house", "in progress"));
+//            listOfTasks.add(new Task("Walk the dog", "Walk it!", "in progress"));
 
 
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfTasks, mListener, context));

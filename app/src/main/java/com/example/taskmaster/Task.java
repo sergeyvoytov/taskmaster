@@ -1,9 +1,20 @@
 package com.example.taskmaster;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tasks")
 public class Task {
 
+    @PrimaryKey(autoGenerate = true)
+    long id;
+
+    @ColumnInfo(name = "title")
     String title;
+    @ColumnInfo(name = "body")
     String body;
+    @ColumnInfo(name = "state")
     String state;
 
     public Task(String title, String body, String state) {
@@ -36,7 +47,13 @@ public class Task {
         this.state = state;
     }
 
+    public void setId(Long id) {
+
+        this.id = id;
+
+    }
+
+
 }
 
-//state should be one of “new”, “assigned”, “in progress”, or “complete”.
 

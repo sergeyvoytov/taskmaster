@@ -10,7 +10,7 @@ Application to add tasks
 
 Main page of the app
 
-![image description](screenshots/123.png)
+![image description](screenshots/mainPage.png)
 
 All tasks details
 
@@ -40,4 +40,12 @@ All tasks details
 - added recycled view
 - added fragments
 - fragments are clickable
+
+
+### 19 February
+
+- added functionality to add statuses to the tasks using radiobuttons
+- deleted extra view in layout for easier styling
+- connected fuctionality to DB
+- retrieves info from the database
 
