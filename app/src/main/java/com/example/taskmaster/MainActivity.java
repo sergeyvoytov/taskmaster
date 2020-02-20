@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Intent;
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         Button allTasksButton = findViewById(R.id.button2);
-
 
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
