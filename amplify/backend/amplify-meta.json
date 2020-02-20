@@ -1,0 +1,42 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-taskmaster-local-164915-authRole",
+            "UnauthRoleArn": "arn:aws:iam::114428702348:role/amplify-taskmaster-local-164915-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::114428702348:role/amplify-taskmaster-local-164915-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-taskmaster-local-164915-deployment",
+            "UnauthRoleName": "amplify-taskmaster-local-164915-unauthRole",
+            "StackName": "amplify-taskmaster-local-164915",
+            "StackId": "arn:aws:cloudformation:us-east-1:114428702348:stack/amplify-taskmaster-local-164915/d33d58f0-537a-11ea-b6eb-1220c9cd2399",
+            "AmplifyAppId": "d1w51fn1w59yua"
+        }
+    },
+    "api": {
+        "amplifyDatasource": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [],
+                    "defaultAuthentication": {
+                        "authenticationType": "API_KEY",
+                        "apiKeyConfig": {
+                            "description": "",
+                            "apiKeyExpirationDays": 7
+                        }
+                    }
+                },
+                "GraphQLAPIIdOutput": "dukyr6m26rgtllqx25c52w4baq",
+                "GraphQLAPIEndpointOutput": "https://ob3f4cj53jhghndxdebfq5cchi.appsync-api.us-east-1.amazonaws.com/graphql",
+                "GraphQLAPIKeyOutput": "da2-ieug24niljamda6kcflwvd6qly"
+            },
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-local-164915-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+                "logicalId": "apiamplifyDatasource"
+            },
+            "lastPushTimeStamp": "2020-02-20T17:25:38.222Z",
+            "lastPushDirHash": "w1WdPcLm+bXTMJRvM/5HKv2VQOA="
+        }
+    }
+}

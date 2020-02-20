@@ -2,6 +2,7 @@ package com.example.taskmaster;
 
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -14,11 +15,15 @@ public interface TaskDao {
     List<Task> getAll();
 
 
-//    @Query("SELECT * FROM tasks WHERE id = :id")
-//    Task getOne(long id);
+    @Query("SELECT * FROM tasks WHERE id = :id")
+    Task getOne(long id);
 
     @Insert
     void save(Task task);
+
+
+    @Delete
+    void delete(Task task);
 }
 
 

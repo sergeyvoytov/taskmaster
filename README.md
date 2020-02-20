@@ -49,3 +49,7 @@ All tasks details
 - connected fuctionality to DB
 - retrieves info from the database
 
+### 20 February
+
+- populated all the tasks from the database to the AllStasks page
+- created toast functionality on all Tasks page with the full task description in it
