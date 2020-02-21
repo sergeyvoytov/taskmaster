@@ -15,17 +15,29 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-//    MyDatabase myDb;
+    //    MyDatabase myDb;
+
+
+    ///do i need it here at all
+    private AWSAppSyncClient awsAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//////
+        awsAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+/////
         Button allTasksButton = findViewById(R.id.button2);
 
         allTasksButton.setOnClickListener(new View.OnClickListener() {
@@ -52,60 +64,6 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(i);
             }
         });
-
-//        final Button taskOneDetailButton = findViewById(R.id.task1);
-//
-//        taskOneDetailButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-//                i.putExtra("task_key", taskOneDetailButton.getText());
-//                Log.i("Voytov", taskOneDetailButton.getText().toString());
-//                startActivity(i);
-//            }
-//        });
-//
-//        final Button taskTwoDetailButton = findViewById(R.id.task2);
-//
-//
-//        taskTwoDetailButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-//                i.putExtra("task_key", taskTwoDetailButton.getText());
-//                startActivity(i);
-//            }
-//        });
-//        final Button taskThreeDetailButton = findViewById(R.id.task3);
-//
-//        taskThreeDetailButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-//                i.putExtra("task_key", taskThreeDetailButton.getText());
-//                startActivity(i);
-//            }
-//        });
-
-        /// out putting user on the main page
-//        String helloUser = getIntent().getStringExtra("user_name");
-//        String userHi = sharedPreferences.getString("user_name", "default");
-//        if(helloUser != null){
-//            TextView userTextView = findViewById(R.id.helloUser);
-//            userTextView.setText("Hi, " + helloUser);
-//        }
-//        final LinearLayout linearLayout = findViewById(R.id.fragment_click);
-//
-//        linearLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MainActivity.this, TaskDetail.class);
-//                i.putExtra("task_key", linearLayout.getId());
-//                startActivity(i);
-//            }
-//        });
-
-
     }
 
     @Override
