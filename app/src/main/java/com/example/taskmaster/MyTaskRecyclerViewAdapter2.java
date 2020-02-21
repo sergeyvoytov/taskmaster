@@ -51,6 +51,8 @@ public class MyTaskRecyclerViewAdapter2 extends RecyclerView.Adapter<MyTaskRecyc
         holder.mStateView.setText(mValues.get(position).getState());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
+
+            // one part is different from the other adapter
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
@@ -67,7 +69,7 @@ public class MyTaskRecyclerViewAdapter2 extends RecyclerView.Adapter<MyTaskRecyc
             }
         });
     }
-
+/////////
     @Override
     public int getItemCount() {
         return mValues.size();
