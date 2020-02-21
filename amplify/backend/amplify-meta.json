@@ -23,7 +23,7 @@
                         "authenticationType": "API_KEY",
                         "apiKeyConfig": {
                             "description": "",
-                            "apiKeyExpirationDays": 7
+                            "apiKeyExpirationDays": "39"
                         }
                     }
                 },
@@ -31,12 +31,11 @@
                 "GraphQLAPIEndpointOutput": "https://ob3f4cj53jhghndxdebfq5cchi.appsync-api.us-east-1.amazonaws.com/graphql",
                 "GraphQLAPIKeyOutput": "da2-ieug24niljamda6kcflwvd6qly"
             },
+            "lastPushTimeStamp": "2020-02-21T05:58:26.358Z",
             "providerMetadata": {
                 "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-local-164915-deployment/amplify-cfn-templates/api/cloudformation-template.json",
                 "logicalId": "apiamplifyDatasource"
-            },
-            "lastPushTimeStamp": "2020-02-20T17:25:38.222Z",
-            "lastPushDirHash": "w1WdPcLm+bXTMJRvM/5HKv2VQOA="
+            }
         }
     }
 }

@@ -53,3 +53,8 @@ All tasks details
 
 - populated all the tasks from the database to the AllStasks page
 - created toast functionality on all Tasks page with the full task description in it
+
+### 21 February
+
+- implemented AWS Amlify
+- Modified AddTask and Mainactivity to show contecnt from the cloud DB instead of local DB
