@@ -1,14 +1,10 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +30,7 @@ import type.CreateTaskInput;
 public class AddTask extends AppCompatActivity {
     MyDatabase myDb;
     String statusPicked;
-    private AWSAppSyncClient awsAppSyncClient;
-    List<Task> tasks;
+    private AWSAppSyncClient mAWSAppSyncClient;
 
 
     @Override
@@ -43,7 +38,7 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        awsAppSyncClient = AWSAppSyncClient.builder()
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
@@ -54,6 +49,7 @@ public class AddTask extends AppCompatActivity {
         Button addTaskButtonNewActivity = findViewById(R.id.addSingleTask);
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -77,6 +73,7 @@ public class AddTask extends AppCompatActivity {
             }
         });
 
+
         addTaskButtonNewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,10 +85,12 @@ public class AddTask extends AppCompatActivity {
                 String editTextNameText = editText.getText().toString();
 
 
+                runMutation(taskNameText, editTextNameText, statusPicked);
+
+//                runQuery();
+
 //                Task newTask = new Task(taskNameText, editTextNameText, statusPicked);
 //                myDb.taskDao().save(newTask);
-
-                runTaskCreateMutation(taskNameText, editTextNameText, statusPicked);
 
 
                 Context context = getApplicationContext();
@@ -101,79 +100,42 @@ public class AddTask extends AppCompatActivity {
                 toast.show();
             }
 
-            public void runTaskCreateMutation(String taskName, String editText, String statusPicked) {
-
-                CreateTaskInput createTaskInput = CreateTaskInput.builder()
-
-                        .title(taskName)
-                        .description(editText)
-                        .status(statusPicked)
-                        .build();
-                awsAppSyncClient.mutate(CreateTaskMutation.builder().input(createTaskInput).build())
-                        .enqueue(addMutationCallback);
-            }
-
-
-            private GraphQLCall.Callback<CreateTaskMutation.Data> addMutationCallback = new GraphQLCall.Callback<CreateTaskMutation.Data>() {
-                @Override
-                public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
-                    Log.i("voytov", "Added Task");
-                }
-
-                @Override
-                public void onFailure(@Nonnull ApolloException e) {
-                    Log.e("voytov", e.toString());
-                }
-            };
-
-            public void getTasks() {
-                awsAppSyncClient.query(ListTasksQuery.builder().build())
-                        .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-                        .enqueue(tasksCallback);
-            }
-
-            private GraphQLCall.Callback<ListTasksQuery.Data> tasksCallback = new GraphQLCall.Callback<ListTasksQuery.Data>() {
-                @Override
-                public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
-                    Log.i("voytov", response.data().listTasks().items().toString());
-                    if (tasks.size() == 0 || response.data().listTasks().items().size() != tasks.size()) {
-
-                        tasks.clear();
-
-                        for (ListTasksQuery.Item item : response.data().listTasks().items()) {
-                            Task sample = new Task(item.title(), item.description(), item.status());
-                            tasks.add(sample);
-                        }
-
-                        Handler handlerForMainThread = new Handler(Looper.getMainLooper()) {
-                            @Override
-                            public void handleMessage(Message inputMessage) {
-//        RecyclerView recyclerView=findViewById(R.id.);
-//        recyclerView.getAdapter().notifyDataSetChanged();
-                            }
-                        };
-
-                        handlerForMainThread.obtainMessage().sendToTarget();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(@Nonnull ApolloException e) {
-                    Log.e("voytov", e.toString());
-                }
-            };
-
-
         });
 
 //https://www.youtube.com/watch?v=FcPUFp8Qrps
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
+
+    // amlify stuff
+
+    public void runMutation(String title, String description, String statusPicked) {
+
+//        Task newTask = new Task(taskNameText, editTextNameText, statusPicked);
+
+        CreateTaskInput createTaskInput = CreateTaskInput.builder().
+                title(title).
+                description(description).
+                status(statusPicked).
+                build();
+
+        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(createTaskInput).build())
+                .enqueue(mutationCallback);
+    }
+
+    private GraphQLCall.Callback<CreateTaskMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+            Log.i("voytov", "Added Todo");
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("Error", e.toString());
+        }
+    };
+
+
 }
-
-
-
-
 

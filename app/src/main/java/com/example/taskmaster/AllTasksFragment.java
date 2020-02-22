@@ -74,7 +74,7 @@ public class AllTasksFragment extends Fragment {
             }
 
 
-            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "tasks").allowMainThreadQueries().build();
+            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "task").allowMainThreadQueries().build();
 
             this.listOfTasks = myDb.taskDao().getAll();
 
