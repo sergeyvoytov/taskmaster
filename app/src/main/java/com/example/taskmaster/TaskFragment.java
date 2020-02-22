@@ -15,8 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * A fragment representing a list of Items.
@@ -26,6 +36,8 @@ import java.util.List;
  */
 public class TaskFragment extends Fragment {
     MyDatabase myDb;
+    private AWSAppSyncClient mAWSAppSyncClient;
+
     List<Task> listOfTasks = new ArrayList<>();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -57,6 +69,11 @@ public class TaskFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getActivity().getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getActivity().getApplicationContext()))
+                .build();
     }
 
     @Override
@@ -74,21 +91,17 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
+//            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "task").allowMainThreadQueries().build();
+//            this.listOfTasks = myDb.taskDao().getAll();
+//                        this.listOfTasks = myDb.taskDao().getAll();
 
-            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "tasks").allowMainThreadQueries().build();
+            this.listOfTasks = new ArrayList<Task>();
 
-            this.listOfTasks = myDb.taskDao().getAll();
+            runQuery();
+
             for (Task item : listOfTasks) {
-                Log.i("Voytov", "Stuff from DB " + item.title + item.body + item.state);
+                Log.i("voytov", "Stuff from DB " + item.title + item.body + item.state);
             }
-
-
-//            List<Task> listOfTasks = new ArrayList<>();
-//            listOfTasks.add(new Task("Wash dishes", "wash it really good", "in progress"));
-//            listOfTasks.add(new Task("Vacuum clean", "Clean your house", "in progress"));
-//            listOfTasks.add(new Task("Walk the dog", "Walk it!", "in progress"));
-
-
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfTasks, mListener, context));
         }
         return view;
@@ -101,10 +114,6 @@ public class TaskFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         }
-//        else {
-//            throw new RuntimeException(context.toString()
-//                + " must implement OnListFragmentInteractionListener");
-//    }
     }
 
     @Override
@@ -127,4 +136,29 @@ public class TaskFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Task task);
     }
+
+
+    public void runQuery() {
+        mAWSAppSyncClient.query(ListTasksQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .enqueue(tasksCallback);
+    }
+
+    private GraphQLCall.Callback<ListTasksQuery.Data> tasksCallback = new GraphQLCall.Callback<ListTasksQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
+            Log.i("voytov" + "results", response.data().listTasks().items().toString());
+            for (ListTasksQuery.Item data : response.data().listTasks().items()) {
+                Task addingTask = new Task(data.title(), data.description(), data.status());
+                listOfTasks.add(addingTask);
+
+            }
+
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("ERROR", e.toString());
+        }
+    };
 }

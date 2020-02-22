@@ -62,12 +62,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                 i.putExtra("task_desc",mValues.get(position).body);
                 i.putExtra("task_state",mValues.get(position).state);
 
-
-
                 mContext.startActivity(i);
-
-
-
 
 //                }
             }

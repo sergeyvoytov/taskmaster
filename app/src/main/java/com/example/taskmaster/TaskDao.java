@@ -11,11 +11,11 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    @Query("SELECT * FROM tasks ORDER BY id DESC")
+    @Query("SELECT * FROM task ORDER BY id DESC")
     List<Task> getAll();
 
 
-    @Query("SELECT * FROM tasks WHERE id = :id")
+    @Query("SELECT * FROM task WHERE id = :id")
     Task getOne(long id);
 
     @Insert
