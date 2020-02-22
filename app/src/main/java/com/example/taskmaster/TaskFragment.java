@@ -91,11 +91,8 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-//
 //            myDb = Room.databaseBuilder(context.getApplicationContext(), MyDatabase.class, "task").allowMainThreadQueries().build();
-//
 //            this.listOfTasks = myDb.taskDao().getAll();
-
 //                        this.listOfTasks = myDb.taskDao().getAll();
 
             this.listOfTasks = new ArrayList<Task>();
@@ -103,7 +100,7 @@ public class TaskFragment extends Fragment {
             runQuery();
 
             for (Task item : listOfTasks) {
-                Log.i("Voytov", "Stuff from DB " + item.title + item.body + item.state);
+                Log.i("voytov", "Stuff from DB " + item.title + item.body + item.state);
             }
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfTasks, mListener, context));
         }
@@ -151,6 +148,12 @@ public class TaskFragment extends Fragment {
         @Override
         public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
             Log.i("voytov" + "results", response.data().listTasks().items().toString());
+            for (ListTasksQuery.Item data : response.data().listTasks().items()) {
+                Task addingTask = new Task(data.title(), data.description(), data.status());
+                listOfTasks.add(addingTask);
+
+            }
+
         }
 
         @Override

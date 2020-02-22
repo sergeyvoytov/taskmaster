@@ -43,8 +43,7 @@ public class AddTask extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
 
-        myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "tasks").allowMainThreadQueries().build();
-
+//        myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "tasks").allowMainThreadQueries().build();
 
         Button addTaskButtonNewActivity = findViewById(R.id.addSingleTask);
 
@@ -86,8 +85,6 @@ public class AddTask extends AppCompatActivity {
 
 
                 runMutation(taskNameText, editTextNameText, statusPicked);
-
-//                runQuery();
 
 //                Task newTask = new Task(taskNameText, editTextNameText, statusPicked);
 //                myDb.taskDao().save(newTask);
