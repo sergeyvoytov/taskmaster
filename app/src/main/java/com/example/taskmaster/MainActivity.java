@@ -15,6 +15,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.SignOutOptions;
+import com.amazonaws.mobile.client.UserState;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 
@@ -48,6 +53,33 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        Button logOutButton = findViewById(R.id.Logout);
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AWSMobileClient.getInstance().signOut(SignOutOptions.builder().signOutGlobally(true).build(), new Callback<Void>() {
+                    @Override
+                    public void onResult(final Void result) {
+
+                        Log.d("voytov", "signed-out");
+                        Intent i = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(i);
+
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("voytov", "sign-out error", e);
+                    }
+                });
+
+            }
+        });
+
+
         Button addTaskButton = findViewById(R.id.button);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +96,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+//                        Log.i("INIT", "onResult: " + userStateDetails.getUserState());
+                        if (userStateDetails.getUserState().equals(UserState.SIGNED_OUT)) {
+
+                            AWSMobileClient.getInstance().showSignIn(MainActivity.this, new Callback<UserStateDetails>() {
+                                @Override
+                                public void onResult(UserStateDetails result) {
+//                                    Log.d("voytov", "onResult: " + result.getUserState());
+//                                    Log.d("voytov", "name: " + AWSMobileClient.getInstance().getUsername());
+
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("voytov", "onError: ", e);
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("INIT", "Initialization error.", e);
+                    }
+                }
+        );
     }
 
     @Override
@@ -74,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
         String helloUser = sharedPreferences.getString("user_name", "default");
         TextView nameUser = findViewById(R.id.helloUser);
 //        nameUser.setText("Hi, " + helloUser);
-        nameUser.setText(helloUser + "'s tasks");
+//        nameUser.setText(helloUser + "'s tasks");
+
+        nameUser.setText(AWSMobileClient.getInstance().getUsername() + "'s tasks");
+
+
     }
 }

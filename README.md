@@ -58,3 +58,10 @@ All tasks details
 
 - implemented AWS Amlify
 - Modified AddTask and Mainactivity to show contecnt from the cloud DB instead of local DB
+
+
+### 25 February
+
+- implemented AWS Cognito
+- implemented showing the name of the user loged in to output it on the main activity page
+- implemented log out function
