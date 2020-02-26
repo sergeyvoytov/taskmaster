@@ -3,6 +3,7 @@ type Task @model {
   title: String!
   description: String
   status: String
+  picTask: String
 }
 type Note @model {
   id: ID!
