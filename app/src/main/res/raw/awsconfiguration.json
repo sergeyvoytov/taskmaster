@@ -33,5 +33,11 @@
         "Default": {
             "authenticationFlowType": "USER_SRP_AUTH"
         }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "s3image164915-local",
+            "Region": "us-east-1"
+        }
     }
 }

@@ -29,20 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     //    MyDatabase myDb;
 
-
-    ///do i need it here at all
     private AWSAppSyncClient awsAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//////
         awsAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
-/////
         Button allTasksButton = findViewById(R.id.button2);
 
         allTasksButton.setOnClickListener(new View.OnClickListener() {

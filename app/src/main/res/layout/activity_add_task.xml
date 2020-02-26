@@ -118,4 +118,13 @@
             android:layout_height="wrap_content"
             android:text="Complete" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/imgBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:text="Image"
+        app:layout_constraintStart_toEndOf="@+id/taskName"
+        tools:layout_editor_absoluteY="160dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

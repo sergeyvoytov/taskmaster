@@ -8,6 +8,7 @@ mutation CreateTask(
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt
@@ -22,6 +23,7 @@ mutation UpdateTask(
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt
@@ -36,6 +38,7 @@ mutation DeleteTask(
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt

@@ -65,3 +65,8 @@ All tasks details
 - implemented AWS Cognito
 - implemented showing the name of the user loged in to output it on the main activity page
 - implemented log out function
+
+### 26 February
+
+- implemented AWS S3
+- implemented uploading pictures

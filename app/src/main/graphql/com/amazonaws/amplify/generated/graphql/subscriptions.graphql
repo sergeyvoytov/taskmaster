@@ -5,6 +5,7 @@ subscription OnCreateTask {
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt
@@ -16,6 +17,7 @@ subscription OnUpdateTask {
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt
@@ -27,6 +29,7 @@ subscription OnDeleteTask {
     title
     description
     status
+    picTask
     _version
     _deleted
     _lastChangedAt
