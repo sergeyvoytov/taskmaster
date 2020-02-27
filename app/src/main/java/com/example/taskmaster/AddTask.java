@@ -1,10 +1,14 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,11 +24,14 @@ import android.widget.Toast;
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -39,23 +46,71 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import type.CreateTaskInput;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+
+
+
 public class AddTask extends AppCompatActivity {
+
+    //////
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+
+
+    //////
     MyDatabase myDb;
     String statusPicked;
     private AWSAppSyncClient mAWSAppSyncClient;
     String picTask;
     private static final String TAG = "voytov";
-
+    private String imageURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_add_task);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+//        String[] permissions = {READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE};
+//        ActivityCompat.requestPermissions(this, permissions, 1);
 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
@@ -69,12 +124,10 @@ public class AddTask extends AppCompatActivity {
         Button imgBtn = findViewById(R.id.imgBtn);
 
         Intent intentThatWeCameFrom = getIntent();
-//        Uri data = intentThatWeCameFrom.getData();
         String action = intentThatWeCameFrom.getAction();
         String type = intentThatWeCameFrom.getType();
 
-        Log.i(TAG, "Type of intent " + type);
-//        Log.i(TAG, "Uri? " + data.getPath());
+//        Log.i(TAG, "Type of intent " + type);
 
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
@@ -112,20 +165,7 @@ public class AddTask extends AppCompatActivity {
                 Intent chooseFile = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(chooseFile, 42);
-//                chooseFile.setType("*/*");
-//                chooseFile = Intent.createChooser(chooseFile, "Choose a file");
-//                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE);
-//
-//                String src = getPath(uri);    /* Method defined above. */
-//                File source = new File(src);
-//                String filename = uri.getLastPathSegment();
-//                File destination = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/CustomFolder/" + filename);
-//
-//                Uri uri = data.getData();
-//                String src = uri.getPath();
-
             }
-
         });
 
 
@@ -145,7 +185,7 @@ public class AddTask extends AppCompatActivity {
 
                 runMutation(taskNameText, editTextNameText, statusPicked);
 
-                uploadWithTransferUtility();
+//                uploadWithTransferUtility();
 
 //                Task newTask = new Task(taskNameText, editTextNameText, statusPicked);
 //                myDb.taskDao().save(newTask);
@@ -186,7 +226,7 @@ public class AddTask extends AppCompatActivity {
     private GraphQLCall.Callback<CreateTaskMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTaskMutation.Data>() {
         @Override
         public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
-            Log.i("voytov", "Added Todo");
+            Log.i("voytov", "Added task");
         }
 
         @Override
@@ -196,7 +236,11 @@ public class AddTask extends AppCompatActivity {
     };
 
 
-    public void uploadWithTransferUtility() {
+    public void uploadWithTransferUtility(Uri uri) {
+
+        String path = getPath(uri);
+        Log.i(TAG, "------>path " + path);
+
 
         TransferUtility transferUtility =
                 TransferUtility.builder()
@@ -205,19 +249,15 @@ public class AddTask extends AppCompatActivity {
                         .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
                         .build();
 
-        File file = new File(getApplicationContext().getFilesDir(), "sample3.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.append("Howdy World!");
-            writer.close();
-        } catch (Exception e) {
-            Log.e("voytov", e.getMessage());
-        }
+        File file = new File(path);
 
-        TransferObserver uploadObserver =
-                transferUtility.upload(
-                        "public/sample3.txt",
-                        new File(getApplicationContext().getFilesDir(), "sample3.txt"));
+        String bucketUrl = "https://s3image164915-local.s3.amazonaws.com/";
+        String key = String.format("public/%s", UUID.randomUUID().toString() + "_" + System.currentTimeMillis());
+        this.imageURL = bucketUrl + key;
+
+        TransferObserver uploadObserver = transferUtility.upload(key, file);
+
+        Log.i(TAG, "something here is good " + bucketUrl);
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
@@ -225,7 +265,7 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onStateChanged(int id, TransferState state) {
                 if (TransferState.COMPLETED == state) {
-                    // Handle a completed upload.
+                    Log.i(TAG, "successfully uploaded");
                 }
             }
 
@@ -240,8 +280,8 @@ public class AddTask extends AppCompatActivity {
 
             @Override
             public void onError(int id, Exception ex) {
-                // Handle errors
-            }
+                ex.printStackTrace();
+                Log.i(TAG,"error");            }
 
         });
 
@@ -259,9 +299,35 @@ public class AddTask extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
-        Log.d(TAG, "on activity: " + requestCode+ resultCode+ resultData);
+//        Log.d(TAG, "on activity: " + requestCode+ resultCode+ resultData);
+        Log.d(TAG, "on activity uri   : " + resultData.getData());
+
+        Log.d(TAG, "on getpath: " + getPath(resultData.getData()));
+
+//        getPath(resultData.getData());
+
+        if (resultData != null) {
+
+            getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+            // Initialize the AWSMobileClient if not initialized
+            AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    Log.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+
+                    Log.i(TAG, "URI " + resultData.getData());
+
+                    uploadWithTransferUtility(resultData.getData());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e(TAG, "Initialization error.", e);
+                }
+            });
 
 
+        }
 
 
     }
