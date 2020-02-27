@@ -69,4 +69,8 @@ All tasks details
 ### 26 February
 
 - implemented AWS S3
-- implemented uploading pictures
+
+### 27 February
+
+- implemented uploading pictures to s3
+- working on the out putting the image to the tasks
