@@ -61,6 +61,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                 i.putExtra("task_key",mValues.get(position).title);
                 i.putExtra("task_desc",mValues.get(position).body);
                 i.putExtra("task_state",mValues.get(position).state);
+                i.putExtra("task_url",mValues.get(position).picTask);
+
 
                 mContext.startActivity(i);
 

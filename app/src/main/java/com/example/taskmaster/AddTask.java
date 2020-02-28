@@ -51,11 +51,10 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import type.CreateTaskInput;
+import type.UpdateTaskInput;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-
 
 
 public class AddTask extends AppCompatActivity {
@@ -71,7 +70,7 @@ public class AddTask extends AppCompatActivity {
 
     /**
      * Checks if the app has permission to write to device storage
-     *
+     * <p>
      * If the app does not has permission then the user will be prompted to grant permissions
      *
      * @param activity
@@ -91,7 +90,6 @@ public class AddTask extends AppCompatActivity {
     }
 
 
-
     //////
     MyDatabase myDb;
     String statusPicked;
@@ -103,7 +101,6 @@ public class AddTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         setContentView(R.layout.activity_add_task);
@@ -216,7 +213,7 @@ public class AddTask extends AppCompatActivity {
                 .title(title)
                 .description(description)
                 .status(statusPicked)
-                .picTask(picTask)
+                .picTask(imageURL)
                 .build();
 
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(createTaskInput).build())
@@ -257,8 +254,6 @@ public class AddTask extends AppCompatActivity {
 
         TransferObserver uploadObserver = transferUtility.upload(key, file);
 
-        Log.i(TAG, "something here is good " + bucketUrl);
-
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
 
@@ -266,6 +261,10 @@ public class AddTask extends AppCompatActivity {
             public void onStateChanged(int id, TransferState state) {
                 if (TransferState.COMPLETED == state) {
                     Log.i(TAG, "successfully uploaded");
+
+//                    UpdateTaskInput.builder()
+//                            .id(imageURL)
+//                            .build();
                 }
             }
 
@@ -281,7 +280,8 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onError(int id, Exception ex) {
                 ex.printStackTrace();
-                Log.i(TAG,"error");            }
+                Log.i(TAG, "error");
+            }
 
         });
 
@@ -289,6 +289,8 @@ public class AddTask extends AppCompatActivity {
         // listener, check for the state and progress in the observer.
         if (TransferState.COMPLETED == uploadObserver.getState()) {
             // Handle a completed upload.
+
+
         }
 
         Log.d("voytov", "Bytes Transferred: " + uploadObserver.getBytesTransferred());

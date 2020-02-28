@@ -73,4 +73,6 @@ All tasks details
 ### 27 February
 
 - implemented uploading pictures to s3
-- working on the out putting the image to the tasks
+- outputs the tasks with images from s3
+
+

@@ -149,7 +149,7 @@ public class TaskFragment extends Fragment {
         public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
             Log.i("voytov" + "results", response.data().listTasks().items().toString());
             for (ListTasksQuery.Item data : response.data().listTasks().items()) {
-                Task addingTask = new Task(data.title(), data.description(), data.status());
+                Task addingTask = new Task(data.title(), data.description(), data.status(), data.picTask());
                 listOfTasks.add(addingTask);
 
             }
