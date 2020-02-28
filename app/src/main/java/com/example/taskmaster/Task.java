@@ -2,6 +2,7 @@ package com.example.taskmaster;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -16,6 +17,8 @@ public class Task {
     String body;
     @ColumnInfo
     String state;
+    @ColumnInfo
+    String picTask;
 
     public Task(String title, String body, String state) {
         this.title = title;
@@ -23,8 +26,20 @@ public class Task {
         this.state = state;
     }
 
+    @Ignore
+    public Task(String title, String body, String state, String picTask) {
+        this.title = title;
+        this.body = body;
+        this.state = state;
+        this.picTask = picTask;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public String getPicTask() {
+        return picTask;
     }
 
     public String getBody() {
