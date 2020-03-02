@@ -1,34 +1,42 @@
 {
-	"api": {
-		"amplifyDatasource": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [],
-					"defaultAuthentication": {
-						"authenticationType": "API_KEY",
-						"apiKeyConfig": {
-							"description": "",
-							"apiKeyExpirationDays": "39"
-						}
-					}
-				}
-			}
-		}
-	},
-	"auth": {
-		"taskmaster6ac262d2": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [],
-			"customAuth": false
-		}
-	},
-	"storage": {
-		"s3image": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
-		}
-	}
+    "api": {
+        "amplifyDatasource": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [],
+                    "defaultAuthentication": {
+                        "authenticationType": "API_KEY",
+                        "apiKeyConfig": {
+                            "description": "",
+                            "apiKeyExpirationDays": "39"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "auth": {
+        "taskmaster6ac262d2": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [],
+            "customAuth": false
+        }
+    },
+    "storage": {
+        "s3image": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation"
+        }
+    },
+    "notifications": {
+        "TaskMasterxcd17": {
+            "service": "Pinpoint",
+            "channels": [
+                "FCM"
+            ]
+        }
+    }
 }

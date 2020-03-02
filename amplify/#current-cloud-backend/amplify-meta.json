@@ -31,7 +31,7 @@
 				"GraphQLAPIEndpointOutput": "https://ob3f4cj53jhghndxdebfq5cchi.appsync-api.us-east-1.amazonaws.com/graphql",
 				"GraphQLAPIKeyOutput": "da2-ieug24niljamda6kcflwvd6qly"
 			},
-			"lastPushTimeStamp": "2020-02-26T19:29:57.367Z",
+			"lastPushTimeStamp": "2020-03-02T18:45:38.572Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-local-164915-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiamplifyDatasource"
@@ -49,7 +49,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-local-164915-deployment/amplify-cfn-templates/auth/taskmaster6ac262d2-cloudformation-template.yml",
 				"logicalId": "authtaskmaster6ac262d2"
 			},
-			"lastPushTimeStamp": "2020-02-26T19:29:56.208Z",
+			"lastPushTimeStamp": "2020-03-02T18:45:38.579Z",
 			"output": {
 				"AppClientSecret": "stegkjtv1isd5n9l1c95o8i0cp3v00d8a1ib5an0henmd40fb6r",
 				"UserPoolId": "us-east-1_Kt9zPEubr",
@@ -59,7 +59,7 @@
 				"IdentityPoolName": "taskmaster6ac262d2_identitypool_6ac262d2__local",
 				"UserPoolName": "taskmaster6ac262d2_userpool_6ac262d2"
 			},
-			"lastPushDirHash": "yQP29p53UUyks8DN8RwTUh1vbOI="
+			"lastPushDirHash": "6bb26BgV0KmrRTjQlE944CIHuJY="
 		}
 	},
 	"storage": {
@@ -70,12 +70,36 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-local-164915-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storages3image"
 			},
-			"lastPushTimeStamp": "2020-02-26T19:29:56.209Z",
+			"lastPushTimeStamp": "2020-03-02T18:45:38.576Z",
 			"output": {
 				"BucketName": "s3image164915-local",
 				"Region": "us-east-1"
 			},
 			"lastPushDirHash": "mXgUX3x5pbHHlYWJQKLsDy1tnkc="
+		}
+	},
+	"notifications": {
+		"TaskMasterxcd17": {
+			"service": "Pinpoint",
+			"output": {
+				"Arn": "arn:aws:mobiletargeting:us-east-1:114428702348:apps/d1a756040fcb47c3abe03bff4ea89bf2",
+				"Id": "d1a756040fcb47c3abe03bff4ea89bf2",
+				"Name": "TaskMasterxcd17-local",
+				"tags": {},
+				"Region": "us-east-1",
+				"FCM": {
+					"ApplicationId": "d1a756040fcb47c3abe03bff4ea89bf2",
+					"CreationDate": "2020-03-02T18:42:45.125Z",
+					"Enabled": true,
+					"HasCredential": true,
+					"Id": "gcm",
+					"IsArchived": false,
+					"LastModifiedDate": "2020-03-02T18:42:45.126Z",
+					"Platform": "GCM",
+					"Version": 1
+				}
+			},
+			"lastPushTimeStamp": "2020-03-02T18:41:26.150Z"
 		}
 	}
 }
