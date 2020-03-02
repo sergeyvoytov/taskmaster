@@ -76,3 +76,11 @@ All tasks details
 - outputs the tasks with images from s3
 
 
+### 2 March
+
+- implemented notifications
+- device sucsessfuly registers in the pinpoint
+Proof of the new notification executed using Firebase and Pinpoint.
+![image description](screenshots/notification-ss.png)
+
+

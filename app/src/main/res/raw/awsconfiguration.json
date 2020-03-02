@@ -39,5 +39,16 @@
             "Bucket": "s3image164915-local",
             "Region": "us-east-1"
         }
+    },
+    "PinpointAnalytics": {
+        "Default": {
+            "AppId": "d1a756040fcb47c3abe03bff4ea89bf2",
+            "Region": "us-east-1"
+        }
+    },
+    "PinpointTargeting": {
+        "Default": {
+            "Region": "us-east-1"
+        }
     }
 }
