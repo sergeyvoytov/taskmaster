@@ -103,6 +103,7 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
+        Log.i(TAG, "In on Create in AddTask");
         setContentView(R.layout.activity_add_task);
 
         getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
@@ -125,6 +126,7 @@ public class AddTask extends AppCompatActivity {
         String type = intentThatWeCameFrom.getType();
 
 //        Log.i(TAG, "Type of intent " + type);
+
 
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
@@ -203,7 +205,7 @@ public class AddTask extends AppCompatActivity {
     }
 
 
-    // amlify stuff
+    // amplify stuff
 
     public void runMutation(String title, String description, String statusPicked) {
 
@@ -351,6 +353,30 @@ public class AddTask extends AppCompatActivity {
         }
 
         return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        /////////////////sharing image to the app from gallery
+        // Get the intent that started this activity
+        Intent intent = getIntent();
+
+        // Figure out what to do based on the intent type
+        String typeActivity = intent.getType();
+
+        Log.i(TAG, "intent POS" +intent.toString());
+        if (typeActivity != null && typeActivity.contains("image/")) {
+
+            Uri imageUrl = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            Log.i(TAG, "image from external share uri: " + imageUrl);
+            Log.i(TAG, "maybe a path? " + getPath(imageUrl));
+            uploadWithTransferUtility(imageUrl);
+
+            // Handle intents with image data ...
+        }
+////////////
     }
 
 }
