@@ -83,4 +83,8 @@ All tasks details
 Proof of the new notification executed using Firebase and Pinpoint.
 ![image description](screenshots/notification-ss.png)
 
+### 3 March
+
+- working on intent filters
+-
 
