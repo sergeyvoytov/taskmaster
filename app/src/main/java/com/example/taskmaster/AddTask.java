@@ -59,6 +59,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AddTask extends AppCompatActivity {
 
+
+//    private FusedLocationProviderClient fusedLocationClient;
+
     //////
 
     // Storage Permissions
@@ -101,6 +104,7 @@ public class AddTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
         Log.i(TAG, "In on Create in AddTask");
@@ -126,7 +130,6 @@ public class AddTask extends AppCompatActivity {
         String type = intentThatWeCameFrom.getType();
 
 //        Log.i(TAG, "Type of intent " + type);
-
 
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
@@ -330,9 +333,7 @@ public class AddTask extends AppCompatActivity {
                 }
             });
 
-
         }
-
 
     }
 
@@ -356,7 +357,7 @@ public class AddTask extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         /////////////////sharing image to the app from gallery
@@ -366,13 +367,13 @@ public class AddTask extends AppCompatActivity {
         // Figure out what to do based on the intent type
         String typeActivity = intent.getType();
 
-        Log.i(TAG, "intent POS" +intent.toString());
+        Log.i(TAG, "intent POS" + intent.toString());
         if (typeActivity != null && typeActivity.contains("image/")) {
 
-            Uri imageUrl = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-            Log.i(TAG, "image from external share uri: " + imageUrl);
-            Log.i(TAG, "maybe a path? " + getPath(imageUrl));
-            uploadWithTransferUtility(imageUrl);
+//            Uri imageUrl = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//            Log.i(TAG, "image from external share uri: " + imageUrl);
+//            Log.i(TAG, "maybe a path? " + getPath(imageUrl));
+//            uploadWithTransferUtility(imageUrl);
 
             // Handle intents with image data ...
         }
