@@ -86,5 +86,8 @@ Proof of the new notification executed using Firebase and Pinpoint.
 ### 3 March
 
 - working on intent filters
--
+
+### 4 March
+
+- working on location
 
